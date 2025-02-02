@@ -9,7 +9,7 @@ import {
   integer,
   timestamp,
   pgEnum,
-  serial
+  serial, boolean
 } from 'drizzle-orm/pg-core';
 import { count, eq, ilike } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
@@ -29,7 +29,13 @@ export const products = pgTable('products', {
 });
 
 export type SelectProduct = typeof products.$inferSelect;
-export const insertProductSchema = createInsertSchema(products);
+
+export const servers = pgTable('servers', {
+  id: serial('id').primaryKey(),
+  slug: text('slug').notNull(),
+  img_slug: text('img_slug').notNull(),
+  mono: boolean('mono').notNull().default(false),
+});
 
 export async function getProducts(
   search: string,
@@ -69,4 +75,53 @@ export async function getProducts(
 
 export async function deleteProductById(id: number) {
   await db.delete(products).where(eq(products.id, id));
+}
+
+
+export interface SelectServer {
+  slug: string;
+  img_slug: string;
+  mono: boolean;
+}
+
+export async function getServers(
+  search: string,
+  offset: number
+): Promise<{
+  servers: SelectServer[];
+  newOffset: number | null;
+  totalServers: number;
+}> {
+  if (search) {
+    return {
+      servers: await db
+        .select()
+        .from(servers)
+        .where(ilike(servers.slug, `%${search}%`))
+        .orderBy(servers.slug)
+        .limit(100),
+      newOffset: null,
+      totalServers: 0
+    };
+  }
+
+  if (offset === null) {
+    return { servers: [], newOffset: null, totalServers: 0 };
+  }
+
+  let totalServers = await db.select({ count: count() }).from(servers);
+  let moreServers = await db
+    .select()
+    .from(servers)
+    .orderBy(servers.slug)
+    .limit(100)
+    .offset(offset);
+
+  let newOffset = moreServers.length >= 5 ? offset + 5 : null;
+
+  return {
+    servers: moreServers,
+    newOffset,
+    totalServers: totalServers[0].count
+  };
 }

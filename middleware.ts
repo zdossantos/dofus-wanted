@@ -6,12 +6,13 @@ import { NextRequest } from "next/server"
 const protectedRoutes: string[] = ["/dashboard", "/suggestions"]
 
 export default auth((req: NextRequest & { auth: any }) => {
-  const isLoggedIn: boolean = !!req.auth
+  const isLoggedIn: boolean = !!req.auth;
+  const isAdmin: boolean = req.auth?.user?.email == process.env.ADMIN_EMAIL;
   const isProtectedRoute: boolean = protectedRoutes.some((route: string) =>
     req.nextUrl.pathname.startsWith(route)
   )
 
-  if (isProtectedRoute && !isLoggedIn) {
+  if (isProtectedRoute && (!isLoggedIn || !isAdmin)) {
     return NextResponse.redirect(new URL("/", req.url))
   }
 
