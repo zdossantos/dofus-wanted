@@ -5,30 +5,10 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import {
   pgTable,
   text,
-  numeric,
-  integer,
-  timestamp,
-  pgEnum,
-  serial, boolean
+  serial, boolean, integer
 } from 'drizzle-orm/pg-core';
-import { count, eq, ilike } from 'drizzle-orm';
-import { createInsertSchema } from 'drizzle-zod';
-
+import { asc, count, desc, ilike } from 'drizzle-orm';
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
-
-export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
-
-export const products = pgTable('products', {
-  id: serial('id').primaryKey(),
-  imageUrl: text('image_url').notNull(),
-  name: text('name').notNull(),
-  status: statusEnum('status').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  stock: integer('stock').notNull(),
-  availableAt: timestamp('available_at').notNull()
-});
-
-export type SelectProduct = typeof products.$inferSelect;
 
 export const servers = pgTable('servers', {
   id: serial('id').primaryKey(),
@@ -37,46 +17,15 @@ export const servers = pgTable('servers', {
   mono: boolean('mono').notNull().default(false),
 });
 
-export async function getProducts(
-  search: string,
-  offset: number
-): Promise<{
-  products: SelectProduct[];
-  newOffset: number | null;
-  totalProducts: number;
-}> {
-  // Always search the full table, not per page
-  if (search) {
-    return {
-      products: await db
-        .select()
-        .from(products)
-        .where(ilike(products.name, `%${search}%`))
-        .limit(1000),
-      newOffset: null,
-      totalProducts: 0
-    };
-  }
+export const wanteds = pgTable('wanteds', {
+  id: serial('id').primaryKey(),
+  slug: text('slug').notNull(),
+  level: integer('level').notNull(),
+  min_delay: integer('min_delay').notNull(),
+  max_delay: integer('max_delay').notNull()
+});
 
-  if (offset === null) {
-    return { products: [], newOffset: null, totalProducts: 0 };
-  }
-
-  let totalProducts = await db.select({ count: count() }).from(products);
-  let moreProducts = await db.select().from(products).limit(5).offset(offset);
-  let newOffset = moreProducts.length >= 5 ? offset + 5 : null;
-
-  return {
-    products: moreProducts,
-    newOffset,
-    totalProducts: totalProducts[0].count
-  };
-}
-
-export async function deleteProductById(id: number) {
-  await db.delete(products).where(eq(products.id, id));
-}
-
+export type SortBy = "asc" | "desc";
 
 export interface SelectServer {
   slug: string;
@@ -84,12 +33,18 @@ export interface SelectServer {
   mono: boolean;
 }
 
+export interface SelectWanted {
+  id: number;
+  slug: string;
+  level: number;
+  min_delay: number;
+  max_delay: number;
+}
+
 export async function getServers(
   search: string,
-  offset: number
 ): Promise<{
   servers: SelectServer[];
-  newOffset: number | null;
   totalServers: number;
 }> {
   if (search) {
@@ -98,30 +53,49 @@ export async function getServers(
         .select()
         .from(servers)
         .where(ilike(servers.slug, `%${search}%`))
-        .orderBy(servers.slug)
-        .limit(100),
-      newOffset: null,
+        .orderBy(servers.slug),
       totalServers: 0
     };
-  }
-
-  if (offset === null) {
-    return { servers: [], newOffset: null, totalServers: 0 };
   }
 
   let totalServers = await db.select({ count: count() }).from(servers);
   let moreServers = await db
     .select()
     .from(servers)
-    .orderBy(servers.slug)
-    .limit(100)
-    .offset(offset);
-
-  let newOffset = moreServers.length >= 5 ? offset + 5 : null;
-
+    .orderBy(servers.slug);
   return {
     servers: moreServers,
-    newOffset,
     totalServers: totalServers[0].count
   };
 }
+
+export async function getWanteds(
+  search: string,
+  orderBy?: SortBy
+): Promise<{
+  wanteds: SelectWanted[];
+  totalWanteds: number;
+}> {
+  if (search) {
+    return {
+      wanteds: await db
+        .select()
+        .from(wanteds)
+        .where(ilike(wanteds.slug, `%${search}%`))
+        .orderBy(orderBy === "desc" ? desc(wanteds.slug) : asc(wanteds.slug)),
+      totalWanteds: 0
+    };
+  }
+
+  let totalWanteds = await db.select({ count: count() }).from(wanteds);
+  let moreWanteds = await db
+    .select()
+    .from(wanteds)
+    .orderBy(wanteds.slug);
+
+  return {
+    wanteds: moreWanteds,
+    totalWanteds: totalWanteds[0].count
+  };
+}
+
