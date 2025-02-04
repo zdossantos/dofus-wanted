@@ -22,11 +22,13 @@ This is a starter template using the following stack:
 - Analytics - [Vercel Analytics](https://vercel.com/analytics)
 - Formatting - [Prettier](https://prettier.io)
 
-This template uses the new Next.js App Router. This includes support for enhanced layouts, colocation of components, tests, and styles, component-level data fetching, and more.
+This template uses the new Next.js App Router. This includes support for enhanced layouts, colocation of components,
+tests, and styles, component-level data fetching, and more.
 
 ## Getting Started
 
-During the deployment, Vercel will prompt you to create a new Postgres database. This will add the necessary environment variables to your project.
+During the deployment, Vercel will prompt you to create a new Postgres database. This will add the necessary environment
+variables to your project.
 
 Inside the Vercel Postgres dashboard, create a table based on the schema defined in this repository.
 
@@ -46,7 +48,8 @@ CREATE TABLE products (
 
 Then, uncomment `app/api/seed.ts` and hit `http://localhost:3000/api/seed` to seed the database with products.
 
-Next, copy the `.env.example` file to `.env` and update the values. Follow the instructions in the `.env.example` file to set up your GitHub OAuth application.
+Next, copy the `.env.example` file to `.env` and update the values. Follow the instructions in the `.env.example` file
+to set up your GitHub OAuth application.
 
 ```bash
 npm i -g vercel
