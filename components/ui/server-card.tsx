@@ -1,20 +1,21 @@
+'use client';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { SelectServer } from '@/lib/db';
 import Link from 'next/link';
-import i18n, { t } from 'i18next';
+import { useTranslation } from "next-i18next";
 
 export const ServerCard = (props: { server: SelectServer }) => {
 	const getServerName = (serverSlug:string) => {
-		const fullServerKey = `servers:${serverSlug}`;
+		const { t, i18n } = useTranslation('servers');
+		const fullServerKey = `${serverSlug}`;
 		const isFullKeyExists = i18n.exists(fullServerKey);
 
 		if (isFullKeyExists) {
 			return t(fullServerKey);
 		}
-
 		const [baseName, suffix] = serverSlug.split('-');
-		const baseTranslation = t(`servers:${baseName}`);
+		const baseTranslation = t(baseName);
 		return `${baseTranslation} ${suffix}`;
 	};
 

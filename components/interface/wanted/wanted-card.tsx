@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { SelectWanted } from '@/lib/db';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 interface WantedCardProps {
 	wanted: SelectWanted;
@@ -27,6 +27,7 @@ const LevelBadge = ({ level }: { level: number }) => (
 export function WantedCard({ wanted, minDelay, maxDelay,onSubmit }: WantedCardProps) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [date, setDate] = useState(new Date(Date.now()));
+	const { t } = useTranslation('wanteds');
 
 	return (
 		<Card className="overflow-hidden hover:shadow-lg transition-shadow h-40 relative min-w-[200px] flex">
@@ -59,7 +60,7 @@ export function WantedCard({ wanted, minDelay, maxDelay,onSubmit }: WantedCardPr
 						className="object-cover rounded-lg"
 					/>
 				</div>
-				<h3 className="text-center font-medium">{t('servers:dakal')}</h3>
+				<h3 className="text-center font-medium">{t(wanted.slug)}</h3>
 
 				{isEditing && (
 					<div
