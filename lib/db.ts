@@ -127,7 +127,6 @@ export async function getWanteds(
 
 	let totalWanteds = await db.select({ count: count() }).from(wanteds);
 	const results = await baseQuery.orderBy(wanteds.slug);
-	console.log('la', results);
 	return {
 		wanteds: results,
 		totalWanteds: totalWanteds[0].count

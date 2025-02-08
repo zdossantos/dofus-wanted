@@ -6,8 +6,11 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function WantedContainer(props: { wanteds: SelectWanted[]; serverId: number }) {
+	const { t } = useTranslation();
+
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedTab, setSelectedTab] = useState('120');
 	const [sortOrder, setSortOrder] = useState<SortBy>('asc');
@@ -40,8 +43,8 @@ export default function WantedContainer(props: { wanteds: SelectWanted[]; server
 					className="flex-1"
 				>
 					<TabsList className="mx-auto">
-						<TabsTrigger value="120">120</TabsTrigger>
-						<TabsTrigger value="all">all</TabsTrigger>
+						<TabsTrigger value="120">{t('common:wanteds.120')}</TabsTrigger>
+						<TabsTrigger value="all">{t('common:wanteds.all')}</TabsTrigger>
 					</TabsList>
 				</Tabs>
 
@@ -50,19 +53,18 @@ export default function WantedContainer(props: { wanteds: SelectWanted[]; server
 						value={sortOrder}
 						onValueChange={(value: SortBy) => setSortOrder(value)}
 					>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="Trier par niveau" />
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder={t('common:order.level.title')} />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="asc">Niveau (croissant)</SelectItem>
-							<SelectItem value="desc">Niveau (décroissant)</SelectItem>
+							<SelectItem value="asc">{t('common:order.level.asc')}</SelectItem>
+							<SelectItem value="desc">{t('common:order.level.desc')}</SelectItem>
 						</SelectContent>
 					</Select>
 
 					<Input
 						type="search"
-						placeholder="Rechercher un monstre..."
-						className="max-w-[200px]"
+						placeholder={t('common:search_wanted')}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 					/>

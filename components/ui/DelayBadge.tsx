@@ -1,5 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 import NumberFlow from '@number-flow/react';
+import { useTranslation } from 'react-i18next';
 
 interface DelayBadgeProps {
 	lastSeenAt: Date | null;
@@ -14,6 +15,7 @@ const formatTime = (date: Date) => {
 	});
 };
 const DelayBadge = ({ lastSeenAt, minDelay, maxDelay }: DelayBadgeProps) => {
+	const { t } = useTranslation();
 	if (!lastSeenAt) {
 		return (
 			<div className="absolute top-2 left-2 bg-black/80 px-3 py-1 rounded-full z-10">
@@ -57,17 +59,17 @@ const DelayBadge = ({ lastSeenAt, minDelay, maxDelay }: DelayBadgeProps) => {
 	};
 
 	const getTooltipText = () => {
-		const baseText = `Dernière apparition : ${formatTime(lastSeenAt)}`;
+		const baseText = t('common:apparition.last_seen_at', {time: formatTime(lastSeenAt)})
 
 		if (timeSinceLastSeen > maxDelay) {
-			return `${baseText}\nPeut réapparaître à tout moment`;
+			return `${baseText}\n${t('common:apparition.any_time')}`;
 		}
 
 		if (timeSinceLastSeen < minDelay) {
-			return `${baseText}\nRéapparition possible à partir de ${formatTime(minReappearTime)}`;
+			return `${baseText}\n${t('common:apparition.min_delay', {time: formatTime(minReappearTime)})}`;
 		}
 
-		return `${baseText}\nRéapparition possible jusqu'à ${formatTime(maxReappearTime)}`;
+		return `${baseText}\n${t('common:apparition.max_delay', {time: formatTime(maxReappearTime)})}`;
 	};
 
 	return (

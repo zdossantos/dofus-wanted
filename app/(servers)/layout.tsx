@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { User } from './user';
 
 export default function OverviewLayout({
 										   children
@@ -17,16 +16,17 @@ export default function OverviewLayout({
 							<div className="flex items-center">
 								{/* Logo */}
 								<Link href="/" className="flex items-center">
-                  <span className="self-center text-xl font-semibold text-white">
-                    Dofus Wanted
-                  </span>
+								  <span className="self-center text-xl font-semibold text-white">
+									Dofus Wanted
+								  </span>
 								</Link>
 							</div>
 
-							{/* Right side items */}
+							{/* Right side items
 							<div className="flex items-center gap-3">
 								<User />
 							</div>
+							*/}
 						</div>
 					</div>
 				</nav>

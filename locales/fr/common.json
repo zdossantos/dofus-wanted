@@ -1,0 +1,25 @@
+{
+	"found": "Trouvé !",
+	"validate": "Valider",
+	"cancel": "Annuler",
+	"level": "Niv. {{level}}",
+	"day_time": "Heure de la journée",
+	"apparition": {
+		"last_seen_at": "Dernière apparition connue : {{time}}",
+		"min_delay": "Réapparition possible à partir de {{time}}",
+		"max_delay": "Réapparition possible jusqu'à {{time}}",
+		"any_time": "Peut réapparaître à tout moment"
+	},
+	"search_wanted": "Rechercher un avis de recherche...",
+	"order": {
+		"level": {
+			"title": "Trier par niveau",
+			"asc": "Niveau (croissant)",
+			"desc": "Niveau (décroissant)"
+		}
+	},
+	"wanteds": {
+		"all": "Tous",
+		"120": "120 et moins"
+	}
+}
