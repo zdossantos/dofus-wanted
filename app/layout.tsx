@@ -19,15 +19,18 @@ export function generateStaticParams() {
 	return i18nConfig.locales.map((locale) => ({ locale }));
 }
 const i18nNamespaces = ['servers','wanteds','common'];
+
+type Params = Promise<{ locale: string, server_id: number }>
 export default async function RootLayout({
-									   children, params: {locale}
+									   children, params
 								   }: Readonly<{
 	children: React.ReactNode;
-	params: {locale: string}
+	params: Params
 }>) {
-	const { resources } = await initTranslations(locale, i18nNamespaces);
+	const params_ = await params;
+	const { resources } = await initTranslations(params_.locale, i18nNamespaces);
 	return (
-		<html lang={locale} className={"dark"} suppressHydrationWarning>
+		<html lang={params_.locale} className={"dark"} suppressHydrationWarning>
 		<head>
 			<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
 			<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
@@ -43,7 +46,7 @@ export default async function RootLayout({
 			<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
 			<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 		</head>
-		<TranslationProvider locale={locale} resources={resources} namespaces={i18nNamespaces}>
+		<TranslationProvider locale={params_.locale} resources={resources} namespaces={i18nNamespaces}>
 			<body className={inter.className} suppressHydrationWarning>{children}</body>
 			<Analytics />
 		</TranslationProvider>
