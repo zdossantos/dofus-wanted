@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipRoot, TooltipTrigger } from './tooltip';
 import NumberFlow from '@number-flow/react';
 import { useTranslation } from 'react-i18next';
 
@@ -59,33 +59,36 @@ const DelayBadge = ({ lastSeenAt, minDelay, maxDelay }: DelayBadgeProps) => {
 	};
 
 	const getTooltipText = () => {
-		const baseText = t('common:apparition.last_seen_at', {time: formatTime(lastSeenAt)})
+		const baseText = t('common:apparition.last_seen_at', { time: formatTime(lastSeenAt) });
 
 		if (timeSinceLastSeen > maxDelay) {
 			return `${baseText}\n${t('common:apparition.any_time')}`;
 		}
 
 		if (timeSinceLastSeen < minDelay) {
-			return `${baseText}\n${t('common:apparition.min_delay', {time: formatTime(minReappearTime)})}`;
+			return `${baseText}\n${t('common:apparition.min_delay', { time: formatTime(minReappearTime) })}`;
 		}
 
-		return `${baseText}\n${t('common:apparition.max_delay', {time: formatTime(maxReappearTime)})}`;
+		return `${baseText}\n${t('common:apparition.max_delay', { time: formatTime(maxReappearTime) })}`;
 	};
 
 	return (
 		<TooltipProvider>
 			<Tooltip>
-				<TooltipTrigger asChild>
-					<div className="absolute top-2 left-2 bg-black/80 px-3 py-1 rounded-full z-10">
+				<TooltipRoot useTouch>
+					<TooltipTrigger asChild>
+						<div className="absolute top-2 left-2 bg-black/80 px-3 py-1 rounded-full z-10">
             <span className={`font-bold ${getDelayColor()}`}>
               {getDelayDisplay()}
             </span>
-					</div>
-				</TooltipTrigger>
+						</div>
+					</TooltipTrigger>
+				</TooltipRoot>
 				<TooltipContent>
 					<p className="whitespace-pre-line">{getTooltipText()}</p>
 				</TooltipContent>
 			</Tooltip>
+
 		</TooltipProvider>
 	);
 };

@@ -36,7 +36,7 @@ export default function WantedContainer(props: { wanteds: SelectWanted[]; server
 
 	return (
 		<div className="container flex flex-col items-center justify-center p-4">
-			<div className="w-full flex items-center justify-between mb-4 gap-4">
+			<div className="w-full flex flex-col md:flex-row items-center justify-between mb-4 gap-4">
 				<Tabs
 					value={selectedTab}
 					onValueChange={setSelectedTab}
@@ -48,7 +48,7 @@ export default function WantedContainer(props: { wanteds: SelectWanted[]; server
 					</TabsList>
 				</Tabs>
 
-				<div className="flex items-center gap-2">
+				<div className="flex items-center gap-2 flex-col md:flex-row">
 					<Select
 						value={sortOrder}
 						onValueChange={(value: SortBy) => setSortOrder(value)}
