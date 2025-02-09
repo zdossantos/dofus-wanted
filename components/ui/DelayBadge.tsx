@@ -14,7 +14,7 @@ interface DelayBadgeProps {
 
 
 const DelayBadge = ({ lastSeenAt, minDelay, maxDelay }: DelayBadgeProps) => {
-	const isDesktop = useMediaQuery("(min-width: 768px)");
+	const isDesktop = useMediaQuery("only screen and (min-width : 768px)");
 	const timing = useWantedDelay(lastSeenAt, minDelay, maxDelay);
 	const { t } = useTranslation();
 
