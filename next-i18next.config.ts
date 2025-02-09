@@ -5,4 +5,7 @@ module.exports = {
 		locales: ['en', 'fr'],
 	},
 	react: { useSuspense: false },
-}
+	interpolation: {
+		escapeValue: false
+	},
+};

@@ -1,6 +1,10 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipRoot, TooltipTrigger } from './tooltip';
-import NumberFlow from '@number-flow/react';
+// components/ui/DelayBadge.tsx
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+import { useMediaQuery } from '@uidotdev/usehooks';
+import { useWantedDelay } from '@/hooks/useWantedDelay';
 import { useTranslation } from 'react-i18next';
+import { formatDistanceToNow, addMinutes } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 interface DelayBadgeProps {
 	lastSeenAt: Date | null;
@@ -8,87 +12,55 @@ interface DelayBadgeProps {
 	maxDelay: number;
 }
 
-const formatTime = (date: Date) => {
-	return date.toLocaleTimeString('fr-FR', {
-		hour: '2-digit',
-		minute: '2-digit'
-	});
-};
+
 const DelayBadge = ({ lastSeenAt, minDelay, maxDelay }: DelayBadgeProps) => {
+	const isDesktop = useMediaQuery("(min-width: 768px)");
+	const timing = useWantedDelay(lastSeenAt, minDelay, maxDelay);
 	const { t } = useTranslation();
-	if (!lastSeenAt) {
-		return (
-			<div className="absolute top-2 left-2 bg-black/80 px-3 py-1 rounded-full z-10">
-				<span className="font-bold text-gray-500">?</span>
-			</div>
-		);
-	}
 
-	const now = Date.now();
-	const timeSinceLastSeen = (now - lastSeenAt.getTime()) / (1000 * 60);
-	const timeUntilMinReappear = minDelay - timeSinceLastSeen;
-	const timeUntilMaxReappear = maxDelay - timeSinceLastSeen;
-	const minReappearTime = new Date(lastSeenAt.getTime() + minDelay * 60 * 1000);
-	const maxReappearTime = new Date(lastSeenAt.getTime() + maxDelay * 60 * 1000);
+	const getStatusColor = () => {
+		if (!timing.lastSeenFormatted || timing.isExpired) return 'text-gray-500';
+		if (timing.isInCooldown) return 'text-red-500';
+		return 'text-green-500';
+	};
 
-	const getTimeDisplay = (minutes: number) => {
-		const hours = Math.floor(minutes / 60);
-		const mins = Math.floor(minutes % 60);
-
-		return (
-			<span className={'inline-flex items-center'}>
-        {hours > 0 && <NumberFlow value={hours} prefix="~" suffix={'h'} />}
-				{(mins > 0 || hours === 0) && (
-					<NumberFlow value={mins} prefix={hours > 0 ? '' : '~'} suffix={'m'} />
-				)}
+	const content = (
+		<div className="absolute top-2 left-2 bg-black/80 px-3 py-1 rounded-full z-10">
+      <span className={`font-bold ${getStatusColor()}`}>
+        {timing.displayValue}
       </span>
-		);
-	};
+		</div>
+	);
 
-	const getDelayDisplay = () => {
-		if (timeSinceLastSeen > maxDelay) return '?';
-		if (timeSinceLastSeen < minDelay) {
-			return getTimeDisplay(timeUntilMinReappear);
-		}
-		return getTimeDisplay(timeUntilMaxReappear);
-	};
 
-	const getDelayColor = () => {
-		if (timeSinceLastSeen > maxDelay) return 'text-gray-500';
-		return timeSinceLastSeen < minDelay ? 'text-red-500' : 'text-green-500';
-	};
+	// Si pas d'info ou pas en desktop, on retourne juste le badge
+	if (!isDesktop || !timing.lastSeenFormatted || !lastSeenAt) return content;
 
-	const getTooltipText = () => {
-		const baseText = t('common:apparition.last_seen_at', { time: formatTime(lastSeenAt) });
+	let tooltipText = `${t('common:apparition.last_seen_at', { time: timing.lastSeenFormatted })}\n`;
 
-		if (timeSinceLastSeen > maxDelay) {
-			return `${baseText}\n${t('common:apparition.any_time')}`;
-		}
-
-		if (timeSinceLastSeen < minDelay) {
-			return `${baseText}\n${t('common:apparition.min_delay', { time: formatTime(minReappearTime) })}`;
-		}
-
-		return `${baseText}\n${t('common:apparition.max_delay', { time: formatTime(maxReappearTime) })}`;
-	};
+	if (timing.isExpired && timing.canAppearNow) {
+		tooltipText += t('common:apparition.any_time');
+	} else if (timing.isInCooldown) {
+		tooltipText += t('common:apparition.min_delay', { time: timing.nextMinAppearance });
+	} else {
+		const availableSince = addMinutes(lastSeenAt, minDelay);
+		tooltipText += `${t('common:apparition.max_delay', { time: timing.nextMaxAppearance })}\n${t('common:apparition.available_since', {
+			time: formatDistanceToNow(availableSince, {
+				locale: fr,
+				includeSeconds: false,
+				addSuffix: false 
+			})
+		})}`;
+	}
 
 	return (
 		<TooltipProvider>
 			<Tooltip>
-				<TooltipRoot useTouch>
-					<TooltipTrigger asChild>
-						<div className="absolute top-2 left-2 bg-black/80 px-3 py-1 rounded-full z-10">
-            <span className={`font-bold ${getDelayColor()}`}>
-              {getDelayDisplay()}
-            </span>
-						</div>
-					</TooltipTrigger>
-				</TooltipRoot>
+				<TooltipTrigger asChild>{content}</TooltipTrigger>
 				<TooltipContent>
-					<p className="whitespace-pre-line">{getTooltipText()}</p>
+					<p className="whitespace-pre-line">{tooltipText}</p>
 				</TooltipContent>
 			</Tooltip>
-
 		</TooltipProvider>
 	);
 };

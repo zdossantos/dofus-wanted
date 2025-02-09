@@ -1,14 +1,24 @@
 {
-	"found": "Trouvé !",
-	"validate": "Valider",
-	"cancel": "Annuler",
 	"level": "Niv. {{level}}",
+	"found": "Trouvé",
+	"cancel": "Annuler",
+	"validate": "Valider",
+	"update_wanted": "Mettre à jour l'apparition",
+	"enter_found_date": "Entrez la date et l'heure où vous avez trouvé ",
 	"day_time": "Heure de la journée",
 	"apparition": {
 		"last_seen_at": "Dernière apparition connue : {{time}}",
+		"last_seen": "Dernière apparition",
 		"min_delay": "Réapparition possible à partir de {{time}}",
 		"max_delay": "Réapparition possible jusqu'à {{time}}",
-		"any_time": "Peut réapparaître à tout moment"
+		"any_time": "Disponible",
+		"unknown": "Pas d'information sur l'apparition",
+		"available_since": "Disponible depuis {{time}}",
+		"status": "Statut",
+		"new_appearance": "Nouvelle apparition",
+		"available_until": "Disponible jusqu'à",
+		"duration": "Durée de disponibilité",
+		"next_appearance": "Prochaine apparition"
 	},
 	"search_wanted": "Rechercher un avis de recherche...",
 	"order": {

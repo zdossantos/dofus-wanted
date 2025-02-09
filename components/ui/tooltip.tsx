@@ -27,38 +27,4 @@ const TooltipContent = React.forwardRef<
 ));
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
-const TooltipRoot = React.forwardRef<
-	HTMLDivElement,
-	React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root> & {
-	useTouch?: boolean;
-	useTap?: boolean;
-}
->(({ useTouch = false, useTap = false, children, ...props }, _ref) => {
-	const [open, setOpen] = React.useState(false);
-
-	const handleTouch = (event: React.TouchEvent | React.MouseEvent) => {
-		event.persist();
-		setOpen(true);
-	};
-
-	return (
-		<TooltipPrimitive.Root
-			open={open}
-			onOpenChange={setOpen}
-			{...props}
-		>
-			{React.Children.map(children, (child) => {
-				if (React.isValidElement(child) && useTouch) {
-					return React.cloneElement(child as React.ReactElement<any>, {
-						onTouchStart: handleTouch,
-						onMouseDown: handleTouch,
-					});
-				}
-				return child;
-			})}
-		</TooltipPrimitive.Root>
-	);
-});
-TooltipRoot.displayName = TooltipPrimitive.Root.displayName;
-
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, TooltipRoot };
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
