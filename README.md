@@ -1,67 +1,54 @@
-<div align="center"><strong>Next.js 15 Admin Dashboard Template</strong></div>
-<div align="center">Built with the Next.js App Router</div>
-<br />
-<div align="center">
-<a href="https://next-admin-dash.vercel.app/">Demo</a>
-<span> · </span>
-<a href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">Clone & Deploy</a>
-<span>
-</div>
+<img src="https://github.com/zachariedos.png" width="100" align="right" />
 
-## Overview
+# 🎯 Dofus Wanted
 
-This is a starter template using the following stack:
+Bienvenue sur **Dofus Wanted** !  
+Ce projet permet aux joueurs de **Dofus** de partager des informations en temps réel sur l'apparition des **avis de recherche** 🏹🔍.
 
-- Framework - [Next.js (App Router)](https://nextjs.org)
-- Language - [TypeScript](https://www.typescriptlang.org)
-- Auth - [Auth.js](https://authjs.dev)
-- Database - [Postgres](https://vercel.com/postgres)
-- Deployment - [Vercel](https://vercel.com/docs/concepts/next.js/overview)
-- Styling - [Tailwind CSS](https://tailwindcss.com)
-- Components - [Shadcn UI](https://ui.shadcn.com/)
-- Analytics - [Vercel Analytics](https://vercel.com/analytics)
-- Formatting - [Prettier](https://prettier.io)
+---
 
-This template uses the new Next.js App Router. This includes support for enhanced layouts, colocation of components,
-tests, and styles, component-level data fetching, and more.
+## ✨ Fonctionnalités
 
-## Getting Started
+✅ Partage et suivi des apparitions des avis de recherche 📜  
+✅ Interface moderne et réactive grâce à **ShadCN UI** & **Tailwind CSS** 🎨  
+✅ Stockage des données avec **PostgreSQL** et gestion avec **Drizzle ORM** 💾  
+✅ État global géré avec **Zustand** 🐻  
+✅ Application rapide et optimisée avec **Next.js 15** ⚡  
 
-During the deployment, Vercel will prompt you to create a new Postgres database. This will add the necessary environment
-variables to your project.
+---
 
-Inside the Vercel Postgres dashboard, create a table based on the schema defined in this repository.
+## 🛠️ Technologies utilisées
 
-```
-CREATE TYPE status AS ENUM ('active', 'inactive', 'archived');
+<table>
+  <tr>
+    <td><img src="https://cdn.worldvectorlogo.com/logos/next-js.svg" width="50"></td>
+    <td><img src="https://avatars.githubusercontent.com/u/67109815?s=200&v=4" width="50"></td>
+    <td><img src="https://avatars.githubusercontent.com/u/24422338?s=200&v=4" width="50"></td>
+    <td><img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" width="50"></td>
+    <td><img src="https://zustand-demo.pmnd.rs/zustand.svg" width="50"></td>
+  </tr>
+  <tr>
+    <td>Next.js 15</td>
+    <td>Tailwind CSS</td>
+    <td>ShadCN UI</td>
+    <td>PostgreSQL</td>
+    <td>Zustand</td>
+  </tr>
+</table>
 
-CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
-  image_url TEXT NOT NULL,
-  name TEXT NOT NULL,
-  status status NOT NULL,
-  price NUMERIC(10, 2) NOT NULL,
-  stock INTEGER NOT NULL,
-  available_at TIMESTAMP NOT NULL
-);
-```
+---
 
-Then, uncomment `app/api/seed.ts` and hit `http://localhost:3000/api/seed` to seed the database with products.
+## 🚀 Installation & Déploiement
 
-Next, copy the `.env.example` file to `.env` and update the values. Follow the instructions in the `.env.example` file
-to set up your GitHub OAuth application.
-
+### 1️⃣ Clone le repo  
 ```bash
-npm i -g vercel
-vercel link
-vercel env pull
-```
-
-Finally, run the following commands to start the development server:
-
-```
+git clone https://github.com/zachariedos/dofus-wanted.git
+cd dofus-wanted
 pnpm install
-pnpm dev
-```
+pnpm run dev
+´´´
 
-You should now be able to access the application at http://localhost:3000.
+##🤝 Contribuer
+
+Les contributions sont les bienvenues ! Ouvre une issue ou fais une pull request.
+Pense à suivre les bonnes pratiques de développement et de commit.
