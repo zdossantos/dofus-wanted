@@ -48,7 +48,7 @@ pnpm install
 pnpm run dev
 ```
 
-##🤝 Contribuer
+## 🤝 Contribuer
 
 Les contributions sont les bienvenues ! Ouvre une issue ou fais une pull request.
 Pense à suivre les bonnes pratiques de développement et de commit.
