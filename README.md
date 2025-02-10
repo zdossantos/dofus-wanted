@@ -1,5 +1,4 @@
-<img src="https://github.com/zachariedos.png" width="100" align="right" />
-
+<img src="https://github.com/zachariedos.png" width="50" align="right" style="border-radius: 50%;" />
 # 🎯 Dofus Wanted
 
 Bienvenue sur **Dofus Wanted** !  
