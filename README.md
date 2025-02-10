@@ -23,7 +23,7 @@ Ce projet permet aux joueurs de **Dofus** de partager des informations en temps 
   <tr>
     <td><img src="https://cdn.worldvectorlogo.com/logos/next-js.svg" width="50"></td>
     <td><img src="https://avatars.githubusercontent.com/u/67109815?s=200&v=4" width="50"></td>
-    <td><img src="https://avatars.githubusercontent.com/u/24422338?s=200&v=4" width="50"></td>
+    <td><img src="https://github.com/shadcn.png" width="50"></td>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" width="50"></td>
     <td><img src="https://zustand-demo.pmnd.rs/zustand.svg" width="50"></td>
   </tr>
