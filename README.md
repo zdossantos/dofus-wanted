@@ -46,7 +46,7 @@ git clone https://github.com/zachariedos/dofus-wanted.git
 cd dofus-wanted
 pnpm install
 pnpm run dev
-´´´
+```
 
 ##🤝 Contribuer
 
