@@ -11,8 +11,59 @@ import TranslationProvider from '@/components/TranslationProvider';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Dofus Wanted",
-	description: "Un outil pour trouver les avis de recherche de Dofus",
+	title: "Dofus Wanted - Suivi des avis de recherche Dofus en temps réel",
+	description: "Suivez et gérez les avis de recherche Dofus sur tous les serveurs. Trouvez leur temps de réapparition. Outil essentiel pour les chasseurs d'avis de recherche.",
+	keywords: [
+    	"Dofus", "avis de recherche", "wanted", "rechercher joueur", "chasse aux primes", "Dofus tracker", "avis Dofus", "recherche Dofus", 
+    	"joueurs recherchés", "suivi avis", "Dofus outil", "Dofus chasseur", "prime Dofus", "chasse prime Dofus", "avis recherche Dofus", "temps avis Dofus"
+  	],
+	openGraph: {
+    	title: "Dofus Wanted - Suivi des avis de recherche Dofus en temps réel",
+    	description: "Suivez et gérez les avis de recherche Dofus sur tous les serveurs. Outil essentiel pour les chasseurs de primes.",
+    	url: "https://dofus-wanted.zdossantos.fr",
+    	siteName: "Dofus Wanted",
+    	images: [
+      	{
+        	url: "/android-icon-192x192.png",
+        	width: 192,
+        	height: 192,
+        	alt: "Dofus Wanted Logo",
+      	},
+    	],
+    	locale: 'fr_FR',
+    	type: 'website',
+  	},
+  	twitter: {
+    	card: 'summary_large_image',
+    	title: 'Dofus Wanted - Suivi des avis de recherche Dofus',
+    	description: 'Suivez les avis de recherche Dofus en temps réel sur tous les serveurs',
+    	images: ['/android-icon-192x192.png'],
+  	},
+  	robots: {
+    	index: true,
+    	follow: true,
+    	nocache: true,
+    	googleBot: {
+      	index: true,
+      	follow: true,
+      	noimageindex: true,
+      	'max-video-preview': -1,
+      	'max-image-preview': 'large',
+      	'max-snippet': -1,
+    	},
+  	},
+  	verification: {
+    	google: 'AKgIx9bxdB_uJ7h2DyJmHSRsBguhPl3Kh4SE84DXEu8',
+  	},
+  	category: 'jeu vidéo',
+  	applicationName: 'Dofus Wanted',
+  	creator: 'Dofus Wanted',
+  	publisher: 'Dofus Wanted',
+  	formatDetection: {
+    	email: false,
+    	address: false,
+    	telephone: false,
+  	},
 };
 
 export function generateStaticParams() {
