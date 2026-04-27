@@ -3,6 +3,7 @@ module.exports = {
 	i18n
 }
 export default {
+	output: 'standalone',
 	images: {
 		remotePatterns: [
 			{

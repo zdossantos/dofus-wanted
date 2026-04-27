@@ -40,12 +40,49 @@ Ce projet permet aux joueurs de **Dofus** de partager des informations en temps 
 
 ## 🚀 Installation & Déploiement
 
-### 1️⃣ Clone le repo  
+### Sans Docker (développement local)
+
 ```bash
 git clone https://github.com/zachariedos/dofus-wanted.git
 cd dofus-wanted
 pnpm install
 pnpm run dev
+```
+
+### 🐳 Avec Docker
+
+#### Pré-requis
+- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
+- Copier `.env.example` en `.env` et renseigner les variables
+
+```bash
+cp .env.example .env
+```
+
+Pour le développement local avec Docker, utilise la connexion PostgreSQL locale :
+```
+POSTGRES_URL=postgresql://dofus:dofus@db:5432/dofus_wanted
+```
+
+#### Développement (hot-reload)
+
+```bash
+docker compose up dev
+```
+
+L'application est accessible sur [http://localhost:3000](http://localhost:3000).  
+Les modifications de code sont automatiquement rechargées grâce au volume monté.
+
+#### Production
+
+```bash
+docker compose --profile prod up prod --build
+```
+
+#### Base de données uniquement
+
+```bash
+docker compose up db
 ```
 
 ## 🤝 Contribuer
